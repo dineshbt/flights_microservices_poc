@@ -1,0 +1,30 @@
+version: "3"
+services:
+  flightdatacollectorservice:
+    image: dineshbt78/flightdatacollectorservice
+    ports:
+      - "8080:8080"
+    networks:
+      - employee-mysql
+    depends_on:
+      - mysqldb
+  
+  flightarrivalservice:
+    image: dineshbt78/flightarrivalservice
+    ports:
+      - "8084:8084"
+    networks:
+      - employee-mysql
+    depends_on:
+      - flightdatacollectorservice
+
+  mysqldb:
+    image: mysql:5.7
+    networks:
+      - employee-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=flightdb  
+
+networks:
+  employee-mysql:
